@@ -1,0 +1,6 @@
+[package]
+name = "constellation_bot"
+version = "0.1.0"
+authors = ["Betsy Haibel <betsy.haibel@gmail.com>"]
+
+[dependencies]
