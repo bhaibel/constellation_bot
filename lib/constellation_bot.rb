@@ -1,5 +1,8 @@
 require "constellation_bot/version"
+require "constellation_bot/constellation"
 
 module ConstellationBot
-  # Your code goes here...
+  def self.constellation
+    Constellation.new.to_svg
+  end
 end
