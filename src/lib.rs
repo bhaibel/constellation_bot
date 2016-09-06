@@ -4,6 +4,8 @@ use libc::{c_char, uint8_t};
 use std::ffi::CString;
 use std::iter;
 
+mod star_set;
+
 #[no_mangle]
 pub extern fn constellation_generate() -> *mut c_char {
     let mut constellation = String::from("<svg>");
