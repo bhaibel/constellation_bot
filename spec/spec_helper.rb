@@ -1,2 +1,6 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'constellation_bot'
+
+require 'byebug'
+
+require 'nokogiri'

@@ -9,3 +9,4 @@
 /tmp/
 target
 Cargo.lock
+.byebug_history

@@ -4,15 +4,13 @@ module ConstellationBot
   class Constellation
 
     def to_svg
-      Builder::Binding.generate(1)
+      Builder::Binding.generate.to_s
     end
 
     class Builder < FFI::AutoPointer
       def self.release(ptr)
         Binding.free(ptr)
       end
-
-      private
 
       def to_s
         @str ||= self.read_string.force_encoding('UTF-8')
@@ -24,9 +22,9 @@ module ConstellationBot
 
         ffi_lib 'target/release/libconstellation.' + FFI_EXT
 
-        attach_function :generate, :theme_song_generate,
-                        [:uint8], Builder
-        attach_function :free, :theme_song_free,
+        attach_function :generate, :constellation_generate,
+                        [], Builder
+        attach_function :free, :constellation_free,
                         [Builder], :void
       end
     end
