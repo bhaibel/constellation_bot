@@ -5,6 +5,7 @@ authors = ["Betsy Haibel <betsy.haibel@gmail.com>"]
 
 [dependencies]
 libc = "0.2.0"
+rand = "0.3"
 
 [lib]
 name = "constellation"
