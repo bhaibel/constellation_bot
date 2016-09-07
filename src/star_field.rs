@@ -4,29 +4,44 @@ use std::vec::Vec;
 use self::rand::{thread_rng, Rng};
 use self::rand::distributions::{IndependentSample, Range};
 
-pub struct Point {
+// #[feature(macro_rules)]
+// macro_rules! obvious_impl {
+//     (impl $trait_: ident for $type_: ident { fn $method: ident }) => {
+//         impl $trait_<$type_, $type_> for $type_ {
+//             fn $method(&self, &$type_(b): &$type_) -> $type_ {
+//                 let $type_(a) = *self;
+//                 $type_(a.$method(&b))
+//             }
+//         }
+//     }
+// }
+// used as:
+//    obvious_impl! { impl ExactSizeIterator for StarField { fn len } }
+// TODO: use to make a StarField newtype
+
+pub struct Star {
     x: f32,
     y: f32
 }
 
-impl Point {
-    pub fn new() -> Point {
+impl Star {
+    pub fn new() -> Star {
         let mut rng = thread_rng();
 
-        Point {
+        Star {
             x: rng.gen::<f32>() * 100.0,
             y: rng.gen::<f32>() * 100.0
         }
     }
 }
 
-pub fn stars() -> Vec<Point> {
+pub fn stars() -> Vec<Star> {
     let mut rng = thread_rng();
     let count = Range::new(6, 13).ind_sample(&mut rng);
     
     (0..count)
-        .map(|_| Point::new())
-        .collect::<Vec<Point>>()
+        .map(|_| Star::new())
+        .collect::<Vec<Star>>()
 }
 
 #[cfg(test)]
