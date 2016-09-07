@@ -20,8 +20,8 @@ use self::rand::distributions::{IndependentSample, Range};
 // TODO: use to make a StarField newtype
 
 pub struct Star {
-    x: f32,
-    y: f32
+    pub x: f32,
+    pub y: f32
 }
 
 impl Star {

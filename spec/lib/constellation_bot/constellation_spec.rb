@@ -14,6 +14,10 @@ module ConstellationBot
         expect(parsed.at('svg')).to have_attribute('height').eq(100)
         expect(parsed.at('svg')).to have_attribute('viewBox').eq("0 0 100 100")
       end
+
+      it 'has stars' do
+        expect(parsed).to have_node('circle')
+      end
     end
   end
 end

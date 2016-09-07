@@ -10,3 +10,4 @@
 target
 Cargo.lock
 .byebug_history
+constellation_*.svg

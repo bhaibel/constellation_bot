@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+File.expand_path("#{File.dirname(__FILE__)}/../lib").tap do |lib|
+  $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+end
+
+require 'pathname'
+
+require 'constellation_bot'
+
+filename = "constellation_#{Time.now.strftime("%Y%m%dT%H%M%S%z")}.svg"
+File.open(filename, 'w') do |f|
+  f.write(ConstellationBot.constellation)
+end
+puts "file://" + File.join(Dir.pwd, filename)
