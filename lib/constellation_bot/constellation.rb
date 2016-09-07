@@ -22,9 +22,9 @@ module ConstellationBot
 
         ffi_lib 'target/release/libconstellation.' + FFI_EXT
 
-        attach_function :generate, :constellation_generate,
+        attach_function :generate, :extern_constellation_svg,
                         [], Builder
-        attach_function :free, :constellation_free,
+        attach_function :free, :extern_constellation_free,
                         [Builder], :void
       end
     end
