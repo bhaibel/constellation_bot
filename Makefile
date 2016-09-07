@@ -15,4 +15,7 @@ rusttest:
 deps:
 	bundle
 
-.PHONY: all gemtest clean rusttest deps
+image: all
+	bin/test_image
+
+.PHONY: all gemtest clean rusttest deps image

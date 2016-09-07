@@ -16,7 +16,18 @@ module ConstellationBot
       end
 
       it 'has stars' do
-        expect(parsed).to have_node('circle')
+        expect(parsed).to have_node('svg/circle')
+      end
+
+      it 'has a colored background' do
+        # someday
+        # expect(parsed.at('svg')).to have_attribute('viewport-fill').eq("#143166")
+        expect(parsed).to have_node('svg/rect')
+        expect(parsed.at('svg/rect')).to have_attribute('fill').eq("#143166")
+        expect(parsed.at('svg/rect')).to have_attribute('x').eq("0")
+        expect(parsed.at('svg/rect')).to have_attribute('y').eq("0")
+        expect(parsed.at('svg/rect')).to have_attribute('width').eq(480)
+        expect(parsed.at('svg/rect')).to have_attribute('height').eq(480)
       end
     end
   end
