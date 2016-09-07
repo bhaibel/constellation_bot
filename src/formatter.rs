@@ -4,13 +4,14 @@ use self::svg::Document;
 use self::svg::node::element::Circle;
 use std::vec::Vec;
 
-use super::star_field::Star;   
+use super::star_field::Star;
+use super::BoundingBox;
 
-pub fn svg(star_field: Vec<Star>) -> String {
+pub fn svg(star_field: Vec<Star>, bounds: BoundingBox) -> String {
     let mut document = Document::new()
-        .set("viewBox", (0, 0, 100, 100))
-        .set("width", 100)
-        .set("height", 100);
+        .set("viewBox", (bounds.origin_x, bounds.origin_y, bounds.width, bounds.height))
+        .set("width", bounds.width)
+        .set("height", bounds.height);
 
     for point in points(star_field) {
         document = document.add(point);

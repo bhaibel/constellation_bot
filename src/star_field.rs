@@ -4,6 +4,8 @@ use std::vec::Vec;
 use self::rand::{thread_rng, Rng};
 use self::rand::distributions::{IndependentSample, Range};
 
+use super::BoundingBox;
+
 // #[feature(macro_rules)]
 // macro_rules! obvious_impl {
 //     (impl $trait_: ident for $type_: ident { fn $method: ident }) => {
@@ -25,32 +27,34 @@ pub struct Star {
 }
 
 impl Star {
-    pub fn new() -> Star {
+    pub fn new(bounds: &BoundingBox) -> Star {
         let mut rng = thread_rng();
 
         Star {
-            x: rng.gen::<f32>() * 100.0,
-            y: rng.gen::<f32>() * 100.0
+            x: rng.gen::<f32>() * bounds.width as f32 + bounds.origin_x as f32,
+            y: rng.gen::<f32>() * bounds.height as f32 + bounds.origin_y as f32
         }
     }
 }
 
-pub fn stars() -> Vec<Star> {
+pub fn stars(bounds: &BoundingBox) -> Vec<Star> {
     let mut rng = thread_rng();
     let count = Range::new(6, 13).ind_sample(&mut rng);
     
     (0..count)
-        .map(|_| Star::new())
+        .map(|_| Star::new(&bounds))
         .collect::<Vec<Star>>()
 }
 
 #[cfg(test)]
 mod tests {
-    use super::stars;
+    use super::*;
+    use super::super::BoundingBox;
 
     #[test]
     fn count_stars() {
-        let subject = stars();
+        let bounds = BoundingBox::default();
+        let subject = stars(&bounds);
 
         for _ in 0..100 {
             assert!(6 <= subject.len());
@@ -60,13 +64,14 @@ mod tests {
 
     #[test]
     fn check_star_positions() {
-        let subject = stars();
+        let bounds = BoundingBox::default();
+        let subject = stars(&bounds);
 
         for _ in 0..100 {
-            assert!(subject.iter().all(|p| p.x >= 0.0));
-            assert!(subject.iter().all(|p| p.y >= 0.0));
-            assert!(subject.iter().all(|p| p.x <= 100.0));
-            assert!(subject.iter().all(|p| p.y <= 100.0));
+            assert!(subject.iter().all(|p| p.x >= bounds.origin_x as f32));
+            assert!(subject.iter().all(|p| p.y >= bounds.origin_y as f32));
+            assert!(subject.iter().all(|p| p.x <= bounds.width as f32));
+            assert!(subject.iter().all(|p| p.y <= bounds.height as f32));
         }
     }
 }

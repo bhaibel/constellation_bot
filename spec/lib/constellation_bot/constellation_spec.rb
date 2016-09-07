@@ -10,9 +10,9 @@ module ConstellationBot
       end
 
       it 'has dimensions' do
-        expect(parsed.at('svg')).to have_attribute('width').eq(100)
-        expect(parsed.at('svg')).to have_attribute('height').eq(100)
-        expect(parsed.at('svg')).to have_attribute('viewBox').eq("0 0 100 100")
+        expect(parsed.at('svg')).to have_attribute('width').eq(480)
+        expect(parsed.at('svg')).to have_attribute('height').eq(320)
+        expect(parsed.at('svg')).to have_attribute('viewBox').eq("0 0 480 320")
       end
 
       it 'has stars' do

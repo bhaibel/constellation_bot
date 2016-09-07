@@ -3,8 +3,8 @@ require 'ffi'
 module ConstellationBot
   class Constellation
 
-    def to_svg
-      Builder::Binding.generate.to_s
+    def to_svg(origin_x: 0, origin_y: 0, width: 480, height: 320)
+      Builder::Binding.generate(origin_x, origin_y, width, height).to_s
     end
 
     class Builder < FFI::AutoPointer
@@ -23,7 +23,7 @@ module ConstellationBot
         ffi_lib 'target/release/libconstellation.' + FFI_EXT
 
         attach_function :generate, :extern_constellation_svg,
-                        [], Builder
+                        [:uint32, :uint32, :uint32, :uint32], Builder
         attach_function :free, :extern_constellation_free,
                         [Builder], :void
       end
