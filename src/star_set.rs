@@ -1,7 +1,7 @@
 extern crate rand;
 
 use std::vec::Vec;
-use self::rand::{thread_rng, sample};
+use self::rand::{thread_rng, Rng};
 use self::rand::distributions::{IndependentSample, Range};
 
 pub struct Point {
@@ -9,31 +9,49 @@ pub struct Point {
     y: f32
 }
 
+impl Point {
+    pub fn new() -> Point {
+        let mut rng = thread_rng();
+
+        Point {
+            x: rng.gen::<f32>() * 100.0,
+            y: rng.gen::<f32>() * 100.0
+        }
+    }
+}
+
 pub fn stars() -> Vec<Point> {
     let mut rng = thread_rng();
     let count = Range::new(6, 13).ind_sample(&mut rng);
     
     (0..count)
-        .map(|_| Point { x: 0.0, y: 0.0 })
+        .map(|_| Point::new())
         .collect::<Vec<Point>>()
 }
 
 #[cfg(test)]
 mod tests {
     use super::stars;
-    use super::Point;
 
     #[test]
-    fn test_star_properties() {
-        for _ in 0..100 {
-            let subject = stars();
+    fn count_stars() {
+        let subject = stars();
 
-            count_stars(subject);
+        for _ in 0..100 {
+            assert!(6 <= subject.len());
+            assert!(13 >= subject.len());
         }
     }
 
-    fn count_stars(subject: Vec<Point>) {
-        assert!(6 <= subject.len());
-        assert!(13 >= subject.len());
+    #[test]
+    fn check_star_positions() {
+        let subject = stars();
+
+        for _ in 0..100 {
+            assert!(subject.iter().all(|p| p.x >= 0.0));
+            assert!(subject.iter().all(|p| p.y >= 0.0));
+            assert!(subject.iter().all(|p| p.x <= 100.0));
+            assert!(subject.iter().all(|p| p.y <= 100.0));
+        }
     }
 }
