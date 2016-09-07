@@ -1,7 +1,9 @@
 extern crate libc;
+extern crate svg;
 
 use libc::{c_char};
 use std::ffi::CString;
+use svg::Document;
 
 mod star_set;
 
@@ -22,5 +24,9 @@ pub extern fn extern_constellation_free(s: *mut c_char) {
 }
 
 pub fn constellation_svg() -> String {
-  String::from("<svg></svg>")
+    Document::new()
+        .set("viewBox", (0, 0, 100, 100))
+        .set("width", 100)
+        .set("height", 100)
+        .to_string()
 }
