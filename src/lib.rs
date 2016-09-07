@@ -3,7 +3,7 @@ extern crate libc;
 use libc::{c_char, uint32_t};
 use std::ffi::CString;
 
-mod star_field;
+mod constellation;
 mod formatter;
 
 #[no_mangle]
@@ -47,6 +47,6 @@ pub fn constellation_svg(origin_x: i32, origin_y: i32, width: i32, height: i32) 
         width: width,
         height: height
     };
-    let star_field = star_field::stars(&bounds);
-    formatter::svg(star_field, bounds)
+    let constellation = constellation::Constellation::new(&bounds);
+    formatter::svg(constellation, bounds)
 }

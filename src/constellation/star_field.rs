@@ -4,7 +4,7 @@ use std::vec::Vec;
 use self::rand::{thread_rng, Rng};
 use self::rand::distributions::{IndependentSample, Range};
 
-use super::BoundingBox;
+use super::super::BoundingBox;
 
 // #[feature(macro_rules)]
 // macro_rules! obvious_impl {
@@ -49,7 +49,7 @@ pub fn stars(bounds: &BoundingBox) -> Vec<Star> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use super::super::BoundingBox;
+    use super::super::super::BoundingBox;
 
     #[test]
     fn count_stars() {

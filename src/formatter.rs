@@ -4,10 +4,11 @@ use self::svg::Document;
 use self::svg::node::element::{Circle, Rectangle};
 use std::vec::Vec;
 
-use super::star_field::Star;
+use super::constellation::star_field::Star;
+use super::constellation::Constellation;
 use super::BoundingBox;
 
-pub fn svg(star_field: Vec<Star>, bounds: BoundingBox) -> String {
+pub fn svg(constellation: Constellation, bounds: BoundingBox) -> String {
     let mut document = Document::new()
         .set("viewBox", (bounds.origin_x, bounds.origin_y, bounds.width, bounds.height))
         .set("width", bounds.width)
@@ -23,7 +24,7 @@ pub fn svg(star_field: Vec<Star>, bounds: BoundingBox) -> String {
 
     document = document.add(background);
 
-    for point in points(star_field) {
+    for point in points(constellation.stars) {
         document = document.add(point);
     }
 
