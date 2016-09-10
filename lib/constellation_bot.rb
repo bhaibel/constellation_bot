@@ -1,6 +1,4 @@
-require 'tempfile'
-require 'rmagick'
-require 'byebug'
+require 'tmpdir'
 
 require "constellation_bot/version"
 require "constellation_bot/constellation"
@@ -11,13 +9,24 @@ module ConstellationBot
   end
 
   def self.with_tempfile
-    Tempfile.open(['constellation','.png']) do |tempfile|
-      ilist = Magick::ImageList.new
-      image = ilist.from_blob("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>#{constellation}")
-      image.write(tempfile.path)
-      File.open(tempfile.path) do |file|
-        yield(file)
-      end
+    Dir.mktmpdir do |tempdir|
+      Dir.chdir(tempdir) do
+        write_png('constellation')
+        File.open('constellation.png') do |f|
+          yield(f)
+        end
+      end 
     end
+  end
+
+  def self.write_svg(name)
+    File.open("#{name}.svg", 'w') do |f|
+      f.write(constellation)
+    end
+  end
+
+  def self.write_png(name)
+    write_svg(name)
+    system("inkscape --export-png #{name}.png #{name}.svg")
   end
 end

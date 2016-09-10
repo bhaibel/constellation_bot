@@ -103,6 +103,7 @@ impl Formatter {
             .set("stroke", "#FFFFFF")
             .set("stroke-width", "1")
             .set("stroke-opacity", ".7")
-            .set("fill", "rgba(0, 0, 0, .2")
+            .set("fill", "#000000")
+            .set("fill-opacity", ".2")
     }
 }

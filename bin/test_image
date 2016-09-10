@@ -8,8 +8,11 @@ require 'pathname'
 
 require 'constellation_bot'
 
-filename = "constellation_#{Time.now.strftime("%Y%m%dT%H%M%S%z")}.svg"
-File.open(filename, 'w') do |f|
-  f.write(ConstellationBot.constellation)
-end
-puts "file://" + File.join(Dir.pwd, filename)
+filename = "constellation_#{Time.now.strftime("%Y%m%dT%H%M%S%z")}"
+fullpath = File.join(Dir.pwd, filename)
+
+ConstellationBot.write_svg(filename)
+ConstellationBot.write_png(filename)
+
+puts "file://" + fullpath + '.svg'
+puts "open " + fullpath + '.png'
