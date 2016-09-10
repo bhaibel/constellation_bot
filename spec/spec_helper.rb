@@ -16,9 +16,10 @@ end
 RSpec::Matchers.define :have_attribute do |expected_attribute|
   match do |actual_node|
     @attribute = actual_node[expected_attribute]
+    @attribute.present? && (@expected_value.blank? || @attribute == @expected_value)
   end
 
   chain :eq do |expected_value|
-    @attribute.present? && attribute.value == expected_value
+    @expected_value = expected_value
   end
 end
