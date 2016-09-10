@@ -1,0 +1,76 @@
+#!/usr/bin/env ruby
+
+File.expand_path("#{File.dirname(__FILE__)}/../lib").tap do |lib|
+  $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+end
+
+require 'rubygems'
+require 'chatterbot/dsl'
+require 'constellation_bot'
+
+begin
+  require 'dotenv' 
+  Dotenv.load
+end
+
+consumer_key ENV['CONSUMER_KEY']
+consumer_secret ENV['CONSUMER_SECRET']
+secret ENV['ACCESS_TOKEN_SECRET']
+token ENV['ACCESS_TOKEN']
+
+debug_mode if ENV['DEBUG']
+no_update if ENV['GOLDFISH_HAVE_NO_MEMORY']
+verbose
+# blocklist and safelist are mutex
+# blocklist "abc", "def"
+# safelist "foo", "bar"
+# exclude "hi", "spammer", "junk"
+exclude bad_words
+only_interact_with_followers
+use_streaming unless ENV['ONLY_ONCE']
+
+ConstellationBot.with_tempfile do |f|
+  client.update_with_media('stars!', f)
+end
+
+##
+# THINGS I MIGHT DO LATER
+
+# replies do |tweet|
+#  # Any time you put the #USER# token in a tweet, Chatterbot will
+#  # replace it with the handle of the user you are interacting with
+#  reply "Yes #USER#, you are very kind to say that!", tweet
+# end
+
+# Use this block to get tweets that appear on your bot's home timeline
+# (ie, if you were visiting twitter.com) -- using this block might
+# require a little extra work but can be very handy
+#
+# home_timeline do |tweet|
+#  puts tweet.inspect
+# end
+
+# Use this block if you want to be notified about new followers of
+# your bot. You might do this to follow the user back.
+#
+# NOTE: This block only works with the Streaming API. If you use it,
+# chatterbot will assume you want to use streaming and will
+# automatically activate it for you.
+#
+# followed do |user|
+#  puts user.inspect
+# end
+
+#
+# Use this block if you want to be notified when one of your tweets is
+# favorited. The object passed in will be a Twitter::Streaming::Event
+# @see http://www.rubydoc.info/gems/twitter/Twitter/Streaming/Event
+#
+# NOTE: This block only works with the Streaming API. If you use it,
+# chatterbot will assume you want to use streaming and will
+# automatically activate it for you.
+#
+# favorited do |event|
+#  puts event.inspect
+# end
+  
