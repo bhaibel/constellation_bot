@@ -11,3 +11,4 @@ target
 Cargo.lock
 .byebug_history
 constellation_*.svg
+a_stellar_bot.yml
