@@ -48,7 +48,7 @@ impl Formatter {
     }
 
     fn star_field(&self) -> Document {
-        let inset = self.bounds.inset();
+        let inset = self.star_bounds().inset();
         let mut star_field = Document::new()
             .set("viewBox", (
                 inset.origin_x,
@@ -66,6 +66,20 @@ impl Formatter {
         }
 
         star_field
+    }
+
+    // once you can figure out how to autoderive vector implementations
+    // on a vector-based newtype, this goes on StarField
+    fn star_bounds(&self) -> BoundingBox {
+        let xs: Vec<i32> = self.constellation.stars.iter().map( |star| star.x).collect();
+        let ys: Vec<i32> = self.constellation.stars.iter().map( |star| star.y).collect();
+
+        BoundingBox {
+            origin_x: xs.iter().min().unwrap().clone(),
+            origin_y: ys.iter().min().unwrap().clone(),
+            width: xs.iter().max().unwrap().clone(),
+            height: ys.iter().max().unwrap().clone()
+        }
     }
 
     fn points(&self) -> Vec<Circle> {

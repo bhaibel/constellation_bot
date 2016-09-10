@@ -35,7 +35,7 @@ module ConstellationBot
       it 'insets stars in a second svg' do
         inner = parsed.at('svg/svg')
         expect(inner).to have_node('circle')
-        expect(inner).to have_attribute('viewBox').eq("-10 -10 650 490")
+        expect(inner).to have_attribute('viewBox')
       end
     end
   end
