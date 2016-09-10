@@ -14,4 +14,13 @@ impl BoundingBox {
             height: 320
         }
     }
+
+    pub fn inset(&self) -> BoundingBox {
+        BoundingBox {
+            origin_x: self.origin_x - 10,
+            origin_y: self.origin_y - 10,
+            width: self.width + 10,
+            height: self.height + 10
+        }
+    }
 }

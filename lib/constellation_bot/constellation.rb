@@ -3,7 +3,7 @@ require 'ffi'
 module ConstellationBot
   class Constellation
 
-    def to_svg(origin_x: 0, origin_y: 0, width: 480, height: 320)
+    def to_svg(origin_x: 0, origin_y: 0, width: 640, height: 480)
       Builder::Binding.generate(origin_x, origin_y, width, height).to_s
     end
 

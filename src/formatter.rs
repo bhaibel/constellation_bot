@@ -23,10 +23,7 @@ pub fn svg(constellation: Constellation, bounds: BoundingBox) -> String {
         .set("fill", "#143166");
 
     document = document.add(background);
-
-    for point in points(constellation.stars) {
-        document = document.add(point);
-    }
+    document = document.add(star_field(bounds.inset(), constellation.stars));
 
     document
         .to_string() 
@@ -40,4 +37,24 @@ fn points(stars: Vec<Star>) -> Vec<Circle> {
             .set("r",  star.size)
             .set("fill", "#FFFFFF")
     ).collect::<Vec<Circle>>()
+}
+
+fn star_field(bounds: BoundingBox, stars: Vec<Star>) -> Document {
+    let mut star_field = Document::new()
+        .set("viewBox", (
+            bounds.origin_x,
+            bounds.origin_y,
+            bounds.width,
+            bounds.height
+        ))
+        .set("width", bounds.width * 3 / 4)
+        .set("height", bounds.height * 3 / 4)
+        .set("x", bounds.width / 8)
+        .set("y", bounds.height / 8);
+
+    for point in points(stars) {
+        star_field = star_field.add(point);
+    }
+
+    star_field
 }
