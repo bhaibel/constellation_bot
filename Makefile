@@ -15,7 +15,13 @@ rusttest:
 deps:
 	bundle
 
+production-deps:
+	bundle install --without test development
+
 image: all
 	bin/test_image
 
-.PHONY: all gemtest clean rusttest deps image
+production: clean production-deps
+	cargo build --release -v # --target x86_64-linux-gnu
+
+.PHONY: all gemtest clean rusttest deps image production

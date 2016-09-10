@@ -18,9 +18,10 @@ module ConstellationBot
 
       module Binding
         extend FFI::Library
-        FFI_EXT = RUBY_PLATFORM.include?('darwin') ? 'dylib' : 'so'
+        FFI_EXT = 'dylib'
+        # FFI_EXT = RUBY_PLATFORM.include?('darwin') ? 'dylib' : 'so'
 
-        ffi_lib 'target/release/libconstellation.' + FFI_EXT
+        ffi_lib File.expand_path(File.dirname(__FILE__) + "./../../target/release/libconstellation." + FFI_EXT)
 
         attach_function :generate, :extern_constellation_svg,
                         [:uint32, :uint32, :uint32, :uint32], Builder
