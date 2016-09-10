@@ -33,14 +33,16 @@ ConstellationBot.with_tempfile do |f|
   client.update_with_media('stars!', f)
 end
 
+# replies do |tweet|
+#   puts('reply gotten!')
+#   ConstellationBot.with_tempfile do |f|
+#     puts(f.path)
+#     reply "#USER#, more stars!", tweet, media: f
+#   end
+# end
+
 ##
 # THINGS I MIGHT DO LATER
-
-# replies do |tweet|
-#  # Any time you put the #USER# token in a tweet, Chatterbot will
-#  # replace it with the handle of the user you are interacting with
-#  reply "Yes #USER#, you are very kind to say that!", tweet
-# end
 
 # Use this block to get tweets that appear on your bot's home timeline
 # (ie, if you were visiting twitter.com) -- using this block might
