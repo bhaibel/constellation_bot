@@ -33,6 +33,7 @@ impl Formatter {
             .set("height", self.bounds.height)
             .set("viewport-fill", "#143166")
             .add(self.background())
+            .add(self.frame())
             .add(self.star_field())
             .to_string() 
     }
@@ -75,5 +76,19 @@ impl Formatter {
                 .set("r",  star.size)
                 .set("fill", "#FFFFFF")
         ).collect::<Vec<Circle>>()
+    }
+
+    fn frame(&self) -> Rectangle {
+        let offset_width = self.bounds.width / 16;
+        let offset_height = self.bounds.width / 16;
+        Rectangle::new()
+            .set("x", self.bounds.origin_x + offset_width)
+            .set("y", self.bounds.origin_y + offset_height)
+            .set("width", self.bounds.width - (offset_width * 2))
+            .set("height", self.bounds.height - (offset_height * 2))
+            .set("stroke", "#FFFFFF")
+            .set("stroke-width", "1")
+            .set("stroke-opacity", ".7")
+            .set("fill", "rgba(0, 0, 0, .2")
     }
 }
