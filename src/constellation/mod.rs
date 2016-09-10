@@ -3,7 +3,7 @@ use std::vec::Vec;
 pub mod star_field;
 
 use self::star_field::{stars, Star};
-use super::BoundingBox;
+use super::bounding_box::BoundingBox;
 
 pub struct Constellation {
   pub stars: Vec<Star>

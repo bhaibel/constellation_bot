@@ -6,7 +6,7 @@ use std::vec::Vec;
 
 use super::constellation::star_field::Star;
 use super::constellation::Constellation;
-use super::BoundingBox;
+use super::bounding_box::BoundingBox;
 
 pub fn svg(constellation: Constellation, bounds: BoundingBox) -> String {
     let mut document = Document::new()
@@ -37,7 +37,7 @@ fn points(stars: Vec<Star>) -> Vec<Circle> {
         Circle::new()
             .set("cx", star.x)
             .set("cy", star.y)
-            .set("r",  3)
+            .set("r",  star.size)
             .set("fill", "#FFFFFF")
     ).collect::<Vec<Circle>>()
 }
