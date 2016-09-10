@@ -12,3 +12,4 @@ Cargo.lock
 .byebug_history
 constellation_*.svg
 .env
+bin/tweet.yml
