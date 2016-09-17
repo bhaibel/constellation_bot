@@ -18,7 +18,7 @@ module ConstellationBot
 
       module Binding
         extend FFI::Library
-        FFI_EXT = 'so' # RUBY_PLATFORM.include?('darwin') ? 'dylib' : 'so'
+        FFI_EXT = RUBY_PLATFORM.include?('darwin') ? 'dylib' : 'so'
 
         ffi_lib File.expand_path(File.dirname(__FILE__) + "./../../target/release/libconstellation." + FFI_EXT)
 
