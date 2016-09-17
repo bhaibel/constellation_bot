@@ -10,4 +10,5 @@ group :development, :test do
   gem "byebug"
   gem "activesupport"
   gem "dotenv"
+  gem "dotenv-heroku"
 end

@@ -30,8 +30,14 @@ exclude bad_words
 only_interact_with_followers
 use_streaming unless ENV['ONLY_ONCE']
 
-ConstellationBot.with_tempfile do |f|
-  client.update_with_media('stars!', f)
+def really_tweet?
+  ENV['FORCE'] || Time.now.hour.even?
+end
+
+if really_tweet?
+  ConstellationBot.with_tempfile do |f|
+    client.update_with_media('stars!', f)
+  end
 end
 
 # replies do |tweet|

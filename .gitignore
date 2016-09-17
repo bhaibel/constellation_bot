@@ -12,5 +12,6 @@ Cargo.lock
 constellation_*.svg
 constellation_*.png
 .env
+.env.local
 bin/tweet.yml
 .vagrant
