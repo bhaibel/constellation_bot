@@ -23,13 +23,12 @@ use super::super::bounding_box::BoundingBox;
 
 const MIN_STAR_COUNT: i8 = 6;
 const MAX_STAR_COUNT: i8 = 13;
-const MIN_STAR_SIZE: i8 = 2;
-const MAX_STAR_SIZE: i8 = 3;
+const MAX_SIZE: i32 = 256;
 
 pub struct Star {
     pub x: i32,
     pub y: i32,
-    pub size: i8
+    size: i32
 }
 
 impl Star {
@@ -39,8 +38,14 @@ impl Star {
         Star {
             x: Range::new(0, bounds.width).ind_sample(&mut rng) + bounds.origin_x,
             y: Range::new(0, bounds.height).ind_sample(&mut rng) + bounds.origin_y,
-            size: roll_some_dice(MIN_STAR_SIZE, MAX_STAR_SIZE + 1, 3)
+            size: roll_some_dice(0, MAX_SIZE, 2)
         }
+    }
+
+    pub fn scaled_size(&self, min: f32, max: f32) -> f32 {
+        let range = max - min;
+        let scale_factor = range / MAX_SIZE as f32;
+        (scale_factor * self.size as f32) + min
     }
 }
 
@@ -53,19 +58,15 @@ pub fn stars(bounds: &BoundingBox) -> Vec<Star> {
         .collect::<Vec<Star>>()
 }
 
-fn roll_some_dice(min: Idx, max: Idx, count: Idx) -> Idx {
+fn roll_some_dice(min: i32, max: i32, count: i8) -> i32 {
     let mut rng = thread_rng();
 
-
     (0..count)
-        .iter()
-        .map(
-            Range::new(min, max).ind_sample(&mut rng)
-        )
-        .sum()
-        .unwrap()
-        / count
+        .map(|_| Range::new(min, max).ind_sample(&mut rng))
+        .sum::<i32>()
+        / count as i32
 }
+
 
 #[cfg(test)]
 mod tests {

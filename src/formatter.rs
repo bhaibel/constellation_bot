@@ -87,7 +87,7 @@ impl Formatter {
             Circle::new()
                 .set("cx", star.x)
                 .set("cy", star.y)
-                .set("r",  star.size)
+                .set("r",  star.scaled_size(1.5, 4.0))
                 .set("fill", "#FFFFFF")
         ).collect::<Vec<Circle>>()
     }
