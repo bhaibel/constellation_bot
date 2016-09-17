@@ -39,7 +39,7 @@ impl Star {
         Star {
             x: Range::new(0, bounds.width).ind_sample(&mut rng) + bounds.origin_x,
             y: Range::new(0, bounds.height).ind_sample(&mut rng) + bounds.origin_y,
-            size: Range::new(MIN_STAR_SIZE, MAX_STAR_SIZE + 1).ind_sample(&mut rng)
+            size: roll_some_dice(MIN_STAR_SIZE, MAX_STAR_SIZE + 1, 3)
         }
     }
 }
@@ -51,6 +51,20 @@ pub fn stars(bounds: &BoundingBox) -> Vec<Star> {
     (0..count)
         .map(|_| Star::new(&bounds))
         .collect::<Vec<Star>>()
+}
+
+fn roll_some_dice(min: Idx, max: Idx, count: Idx) -> Idx {
+    let mut rng = thread_rng();
+
+
+    (0..count)
+        .iter()
+        .map(
+            Range::new(min, max).ind_sample(&mut rng)
+        )
+        .sum()
+        .unwrap()
+        / count
 }
 
 #[cfg(test)]
