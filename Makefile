@@ -1,27 +1,28 @@
-all: target/release/libconstellation_bot.dylib gemtest
+all: target/release/libconstellation.dylib gemtest
 
 clean:
 	cargo clean
 
-gemtest: target/release/libconstellation_bot.dylib
+gemtest: target/release/libconstellation.dylib
 	bin/rake
 
-target/release/libconstellation_bot.dylib: rusttest
+target/release/libconstellation.dylib: rusttest
 	cargo build --release
+
+target/release/libconstellation.so: rusttest
+	vagrant up
+	vagrant ssh -c "cd /vagrant && cargo build --release"
+	vagrant scp default:/vagrant/target ./target
 
 rusttest:
 	cargo test
 
-deps:
-	bundle
-
-production-deps:
-	bundle install --without test development
-
 image: all
 	bin/test_image
 
-production: clean production-deps
-	cargo build --release -v # --target x86_64-linux-gnu
+docker: target/release/libconstellation.so
+	docker build -t bhaibel/constellation_bot:`cat .docker-image-version` .
 
-.PHONY: all gemtest clean rusttest deps image production
+production: clean all docker
+
+.PHONY: all gemtest clean rusttest image production docker

@@ -9,8 +9,9 @@ require 'chatterbot/dsl'
 require 'constellation_bot'
 
 begin
-  require 'dotenv' 
+  require 'dotenv'
   Dotenv.load
+rescue LoadError
 end
 
 consumer_key ENV['CONSUMER_KEY']

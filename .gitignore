@@ -14,3 +14,4 @@ constellation_*.svg
 constellation_*.png
 .env
 bin/tweet.yml
+.vagrant
