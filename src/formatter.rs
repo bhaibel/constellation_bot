@@ -1,7 +1,7 @@
 extern crate svg;
 
 use self::svg::Document;
-use self::svg::node::element::{Circle, Rectangle};
+use self::svg::node::element::{Circle, Rectangle, LinearGradient, Stop};
 use std::vec::Vec;
 
 use super::constellation::Constellation;
@@ -32,10 +32,29 @@ impl Formatter {
             .set("width", self.bounds.width)
             .set("height", self.bounds.height)
             .set("viewport-fill", "#143166")
+            .add(self.background_gradient())
             .add(self.background())
             .add(self.frame())
             .add(self.star_field())
             .to_string() 
+    }
+
+
+    fn background_gradient(&self) -> LinearGradient {
+        LinearGradient::new()
+            .set("id", "bg_gradient")
+            .set("x1", ".2")
+            .set("y1", "0")
+            .set("x2", ".8")
+            .set("y2", "1")
+            .add(Stop::new()
+                .set("offset", "0%")
+                .set("stop-color", "#143166")
+            )
+            .add(Stop::new()
+                .set("offset", "100%")
+                .set("stop-color", "#041A42")
+            )
     }
 
     fn background(&self) -> Rectangle {
@@ -44,7 +63,7 @@ impl Formatter {
             .set("y", self.bounds.origin_y)
             .set("width", self.bounds.width)
             .set("height", self.bounds.height)
-            .set("fill", "#143166")
+            .set("fill", "url(#bg_gradient)")
     }
 
     fn star_field(&self) -> Document {
