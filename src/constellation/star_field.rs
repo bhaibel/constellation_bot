@@ -5,6 +5,7 @@ use self::rand::thread_rng;
 use self::rand::distributions::{IndependentSample, Range};
 
 use super::super::bounding_box::BoundingBox;
+use super::super::color::{Rgb, Hsl};
 
 // #[feature(macro_rules)]
 // macro_rules! obvious_impl {
@@ -25,20 +26,26 @@ const MIN_STAR_COUNT: i8 = 6;
 const MAX_STAR_COUNT: i8 = 13;
 const MAX_SIZE: i32 = 256;
 
+const RED_MIN: i32 = 0;
+const YELLOW_MAX: i32 = 60;
+const BLUE_MIN: i32 = 205;
+const BLUE_MAX: i32 = 220;
+
 pub struct Star {
     pub x: i32,
     pub y: i32,
-    size: i32
+    size: i32,
+    pub color: Rgb
 }
 
 impl Star {
     pub fn new(bounds: &BoundingBox) -> Star {
-        let mut rng = thread_rng();
 
         Star {
-            x: Range::new(0, bounds.width).ind_sample(&mut rng) + bounds.origin_x,
-            y: Range::new(0, bounds.height).ind_sample(&mut rng) + bounds.origin_y,
-            size: roll_some_dice(0, MAX_SIZE, 2)
+            x: roll_some_dice(0, bounds.width, 1) + bounds.origin_x,
+            y: roll_some_dice(0, bounds.height, 1) + bounds.origin_y,
+            size: roll_some_dice(0, MAX_SIZE, 2),
+            color: star_color().as_rgb()
         }
     }
 
@@ -67,6 +74,20 @@ fn roll_some_dice(min: i32, max: i32, count: i8) -> i32 {
         / count as i32
 }
 
+fn star_color() -> Hsl {
+    let hue_base = roll_some_dice(RED_MIN, YELLOW_MAX + BLUE_MAX - BLUE_MIN, 1);
+    let hue = if hue_base < YELLOW_MAX {
+                hue_base
+            } else {
+                hue_base - YELLOW_MAX + BLUE_MIN
+            };
+
+    Hsl {
+        h: hue as u16,
+        s: roll_some_dice(95, 101, 2) as u8,
+        l: roll_some_dice(85, 101, 2) as u8
+    }
+}
 
 #[cfg(test)]
 mod tests {

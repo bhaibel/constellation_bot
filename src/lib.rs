@@ -6,6 +6,7 @@ use std::ffi::CString;
 mod constellation;
 mod formatter;
 mod bounding_box;
+mod color;
 
 #[no_mangle]
 pub extern fn extern_constellation_svg(origin_x: uint32_t, origin_y: uint32_t, width: uint32_t, height: uint32_t) -> *mut c_char {
