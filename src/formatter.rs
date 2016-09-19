@@ -106,7 +106,7 @@ impl Formatter {
             Circle::new()
                 .set("cx", star.x)
                 .set("cy", star.y)
-                .set("r",  star.scaled_size(1.5, 4.0))
+                .set("r",  star.size.scaled(1.5, 4.0))
                 .set("fill", star.color.as_hex())
         ).collect::<Vec<Circle>>()
     }

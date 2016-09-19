@@ -1,11 +1,10 @@
 extern crate rand;
 
 use std::vec::Vec;
-use self::rand::thread_rng;
-use self::rand::distributions::{IndependentSample, Range};
 
 use super::super::bounding_box::BoundingBox;
 use super::super::color::{Rgb, Hsl};
+use super::super::scalar::{Scalar, roll_some_dice};
 
 // #[feature(macro_rules)]
 // macro_rules! obvious_impl {
@@ -22,9 +21,8 @@ use super::super::color::{Rgb, Hsl};
 //    obvious_impl! { impl ExactSizeIterator for StarField { fn len } }
 // TODO: use to make a StarField newtype
 
-const MIN_STAR_COUNT: i8 = 6;
-const MAX_STAR_COUNT: i8 = 13;
-const MAX_SIZE: i32 = 256;
+const MIN_STAR_COUNT: i32 = 6;
+const MAX_STAR_COUNT: i32 = 12;
 
 const RED_MIN: i32 = 0;
 const YELLOW_MAX: i32 = 60;
@@ -34,44 +32,27 @@ const BLUE_MAX: i32 = 220;
 pub struct Star {
     pub x: i32,
     pub y: i32,
-    size: i32,
+    pub size: Scalar,
     pub color: Rgb
 }
 
 impl Star {
     pub fn new(bounds: &BoundingBox) -> Star {
-
         Star {
             x: roll_some_dice(0, bounds.width, 1) + bounds.origin_x,
             y: roll_some_dice(0, bounds.height, 1) + bounds.origin_y,
-            size: roll_some_dice(0, MAX_SIZE, 2),
+            size: Scalar::rand(2),
             color: star_color().as_rgb()
         }
-    }
-
-    pub fn scaled_size(&self, min: f32, max: f32) -> f32 {
-        let range = max - min;
-        let scale_factor = range / MAX_SIZE as f32;
-        (scale_factor * self.size as f32) + min
     }
 }
 
 pub fn stars(bounds: &BoundingBox) -> Vec<Star> {
-    let mut rng = thread_rng();
-    let count = Range::new(MIN_STAR_COUNT, MAX_STAR_COUNT + 1).ind_sample(&mut rng);
+    let count = roll_some_dice(MIN_STAR_COUNT, MAX_STAR_COUNT + 1, 1);
     
     (0..count)
         .map(|_| Star::new(&bounds))
         .collect::<Vec<Star>>()
-}
-
-fn roll_some_dice(min: i32, max: i32, count: i8) -> i32 {
-    let mut rng = thread_rng();
-
-    (0..count)
-        .map(|_| Range::new(min, max).ind_sample(&mut rng))
-        .sum::<i32>()
-        / count as i32
 }
 
 fn star_color() -> Hsl {
